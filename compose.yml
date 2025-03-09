@@ -1,0 +1,97 @@
+services:
+  tetrix-demo-php:
+    build:
+      args:
+        UID: ${DOCKER_LARAVEL_UID:-1000}
+        USER: ${DOCKER_LARAVEL_USER:-linux}
+      context: ./
+      dockerfile: iac/containers/php/dev/Dockerfile
+    image: tetrix-demo-php
+    container_name: tetrix-demo-php
+    volumes:
+      - '.:/var/www'
+      - './iac/containers/php/shared/conf.d/overwrite.ini:/usr/local/etc/php/conf.d/overwrite.ini'
+    depends_on:
+      - tetrix-demo-mariadb
+      - tetrix-demo-redis
+      - tetrix-demo-node
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm -t || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  tetrix-demo-nginx:
+    image: 'nginx:1.27@sha256:baa881b012a49e3c2cd6ab9d80f9fcd2962a98af8ede947d0ef930a427b28afc' #NginxVersion | The value here should be updated if a different NginxVersion should be used, no extra comment is needed in this case.
+    container_name: tetrix-demo-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - './public:/var/www/public'
+      - './storage:/var/www/storage'
+      - './iac/containers/nginx/shared/conf.d/default.conf:/etc/nginx/conf.d/default.conf'
+    depends_on:
+      - tetrix-demo-php
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -sI http://localhost/ || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  tetrix-demo-mariadb:
+    image: 'mariadb:11.4@sha256:fdc72e8f2960d758aa77ebac9ea65028ca195d4cba854a14e4afae703f5f6a22' #MariaDBVersion | The value here should be updated if a different MariaDBVersion should be used, no extra comment is needed in this case.
+    container_name: tetrix-demo-mariadb
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'tetrix-demo-mariadb:/var/lib/mysql'
+      - './iac/containers/mariadb/shared/mariadb.conf.d/overwrite.cnf:/etc/mysql/mariadb.conf.d/overwrite.cnf'
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  tetrix-demo-redis:
+    image: 'redis:7.2-alpine@sha256:f469de9fde6334a365b5203cd7adcda733b6a1c5ab4a274640bd560122d0e740' #RedisVersion | The value here should be updated if a different RedisVersion should be used, no extra comment is needed in this case.
+    container_name: tetrix-demo-redis
+    volumes:
+      - 'tetrix-demo-redis:/data'
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  tetrix-demo-node:
+    image: 'node:22-slim@sha256:8b2f3a3d49ebd85cd80a0af1b94b7fc2b30e29364475655df9001fb01ee991c4' #NodeVersion | The value here should be updated if a different NodeVersion should be used, no extra comment is needed in this case.
+    container_name: tetrix-demo-node
+    ports:
+      - "5173:5173"
+    working_dir: /var/www
+    volumes:
+      - '.:/var/www'
+    entrypoint: ['npm', 'run', 'dev'] # To start dev server
+    healthcheck:
+      test: [ "CMD-SHELL", "node -e \"require('http').get('http://localhost:5173', res => process.exit(res.statusCode === 404 ? 0 : 1)).on('error', () => process.exit(1));\"" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  tetrix-demo-mariadb:
+    name: tetrix-demo-mariadb
+    driver: local
+  tetrix-demo-redis:
+    name: tetrix-demo-redis
+    driver: local
+
+networks:
+  default:
+    name: tetrix-demo-network

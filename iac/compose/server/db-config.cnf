@@ -1,0 +1,5 @@
+[client]
+# The commented out line below is actually still used through grep. So the database name should be filled in here.
+#database=FILL_DATABASE_NAME_HERE
+user=FILL_USER_NAME_HERE
+password=FILL_PASSWORD_HERE

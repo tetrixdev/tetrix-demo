@@ -1,0 +1,19 @@
+services:
+  tetrix-demo-php:
+    build:
+      context: ./
+      dockerfile: iac/containers/php/build/Dockerfile
+    image: tetrix-demo-php
+    container_name: tetrix-demo-php
+  tetrix-demo-nginx:
+    build:
+      context: ./
+      dockerfile: iac/containers/nginx/build/Dockerfile
+    image: tetrix-demo-nginx
+    container_name: tetrix-demo-nginx
+  tetrix-demo-mariadb:
+    build:
+      context: ./
+      dockerfile: iac/containers/mariadb/build/Dockerfile
+    image: tetrix-demo-mariadb
+    container_name: tetrix-demo-mariadb

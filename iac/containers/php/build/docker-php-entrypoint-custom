@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+# These 2 lines are to start the cron and supervisor services
+service cron start
+service supervisor start
+
+# Call the original entrypoint script from the official image
+docker-php-entrypoint "$@"

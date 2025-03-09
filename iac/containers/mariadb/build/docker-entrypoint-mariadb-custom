@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+# This line is added to start the cron service
+service cron start
+
+# Call the original entrypoint script from the official image
+/usr/local/bin/docker-entrypoint.sh "$@"

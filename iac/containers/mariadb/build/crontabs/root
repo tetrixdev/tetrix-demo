@@ -1,0 +1,2 @@
+30 */12 * * * /bin/sh /create_backup.sh
+* * * * * (date >> /tmp/cronjob.log; tail -n 500 /tmp/cronjob.log > /tmp/cronjob.tmp; mv /tmp/cronjob.tmp /tmp/cronjob.log)

@@ -1,0 +1,2 @@
+* * * * * cd /var/www && /usr/local/bin/php artisan schedule:run
+* * * * * (date >> /tmp/cronjob.log; tail -n 500 /tmp/cronjob.log > /tmp/cronjob.tmp; mv /tmp/cronjob.tmp /tmp/cronjob.log)
