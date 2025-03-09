@@ -1,0 +1,88 @@
+name: Docker Image CI
+
+on:
+  release:
+    types: [prereleased, released]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    # We don't need this currently as we're using a Custom PAT (secrets.PAT_FOR_GITHUB_ACTIONS) instead of using secrets.GITHUB_TOKEN, because secrets.GITHUB_TOKEN is limited to only the project itself
+    # permissions:
+    #   contents: read
+    #   packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout the files
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' #NodeVersion | The value here should be updated if a different NodeVersion should be used, no extra comment is needed in this case.
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3" #PHPVersion | The value here should be updated if a different PHPVersion should be used, no extra comment is needed in this case.
+
+      - uses: ramsey/composer-install@v3 #ComposerVersion | The value here might have to be updated if a different ComposerVersion should be used, no extra comment is needed in this case.
+        with:
+          composer-options: "--no-dev --optimize-autoloader --verbose"
+        env:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.PAT_FOR_GITHUB_ACTIONS }}"}}' # Have to use a PAT here instead of secrets.GITHUB_TOKEN as GITHUB_TOKEN is limited to only the project itself, we want to be able to require other projects
+
+      - name: Run NPM Build
+        run: npm run build
+
+      - name: Remove node_modules folder
+        run: rm -rf node_modules
+
+      # Building the images using Docker Buildx which has caching support available, which docker compose doesn't have
+      # Caching works here as it's not using the github actions caching, but the docker buildx caching and the caching is stored in the registry
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to container registry
+        run: docker login ghcr.io --username=${{ github.actor }} --password=${{ secrets.PAT_FOR_GITHUB_ACTIONS }} # Have to use a PAT here instead of secrets.GITHUB_TOKEN as GITHUB_TOKEN is limited to only the project itself, we need to be able to reach our extended-php package
+
+      - name: Build and push tetrix-demo-php image with caching
+        run: |
+          docker buildx build \
+            --file iac/containers/php/build/Dockerfile \
+            --progress plain \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from=type=registry,ref=ghcr.io/jfbauer/tetrix-demo-php:cache \
+            --cache-to=type=registry,ref=ghcr.io/jfbauer/tetrix-demo-php:cache,mode=max \
+            --tag ghcr.io/jfbauer/tetrix-demo-php:${{ github.event.release.name }} \
+            --push \
+            .
+
+      - name: Build and push tetrix-demo-nginx image with caching
+        run: |
+          docker buildx build \
+            --file iac/containers/nginx/build/Dockerfile \
+            --progress plain \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from=type=registry,ref=ghcr.io/jfbauer/tetrix-demo-nginx:cache \
+            --cache-to=type=registry,ref=ghcr.io/jfbauer/tetrix-demo-nginx:cache,mode=max \
+            --tag ghcr.io/jfbauer/tetrix-demo-nginx:${{ github.event.release.name }} \
+            --push \
+            .
+
+      - name: Build and push tetrix-demo-mariadb image with caching
+        run: |
+          docker buildx build \
+            --file iac/containers/mariadb/build/Dockerfile \
+            --progress plain \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from=type=registry,ref=ghcr.io/jfbauer/tetrix-demo-mariadb:cache \
+            --cache-to=type=registry,ref=ghcr.io/jfbauer/tetrix-demo-mariadb:cache,mode=max \
+            --tag ghcr.io/jfbauer/tetrix-demo-mariadb:${{ github.event.release.name }} \
+            --push \
+            .

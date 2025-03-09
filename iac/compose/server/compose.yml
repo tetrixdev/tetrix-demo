@@ -1,0 +1,92 @@
+services:
+  tetrix-demo-php:
+    image: ghcr.io/jfbauer/tetrix-demo-php:REPLACE_WITH_VERSION
+    container_name: tetrix-demo-php
+    volumes:
+      - '.env:/var/www/.env'
+      - 'tetrix-demo-storage:/var/www/storage'
+    restart: always
+    logging:
+      driver: journald
+    depends_on:
+      - tetrix-demo-mariadb
+      - tetrix-demo-redis
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm -t || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  tetrix-demo-nginx:
+    image: ghcr.io/jfbauer/tetrix-demo-nginx:REPLACE_WITH_VERSION
+    container_name: tetrix-demo-nginx
+    volumes:
+      - 'tetrix-demo-storage:/mnt/docker/storage'
+    networks:
+      - default
+      - main-network
+    restart: always
+    logging:
+      driver: journald
+    depends_on:
+      - tetrix-demo-php
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -sI http://localhost/ || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  tetrix-demo-mariadb:
+    image: ghcr.io/jfbauer/tetrix-demo-mariadb:REPLACE_WITH_VERSION
+    container_name: tetrix-demo-mariadb
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'tetrix-demo-mariadb:/var/lib/mysql'
+      - './db-config.cnf:/root/.my.cnf'
+      - './backups:/backups'
+    restart: always
+    logging:
+      driver: journald
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  tetrix-demo-redis:
+    image: 'redis:7.2-alpine@sha256:f469de9fde6334a365b5203cd7adcda733b6a1c5ab4a274640bd560122d0e740' #RedisVersion | The value here should be updated if a different RedisVersion should be used, not extra comment is needed in this case.
+    container_name: tetrix-demo-redis
+    volumes:
+      - 'tetrix-demo-redis:/data'
+    restart: always
+    logging:
+      driver: journald
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  tetrix-demo-storage:
+    name: tetrix-demo-storage
+    driver: local
+  tetrix-demo-mariadb:
+    name: tetrix-demo-mariadb
+    driver: local
+  tetrix-demo-redis:
+    name: tetrix-demo-redis
+    driver: local
+
+networks:
+  default:
+    name: tetrix-demo-network
+  main-network:
+    name: main-network
