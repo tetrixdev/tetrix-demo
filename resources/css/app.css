@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './../../vendor/tetrix/tetrix/src/Resources/css/tetrix.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
