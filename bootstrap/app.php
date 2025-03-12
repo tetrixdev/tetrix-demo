@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(['172.17.0.0/12']);
-        //
+        $middleware->append(\App\Http\Middleware\TetrixTargetsResponse::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

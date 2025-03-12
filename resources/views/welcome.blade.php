@@ -115,7 +115,11 @@
                             <a href="https://cloud.laravel.com" target="_blank" class="inline-block dark:bg-[#eeeeec] dark:border-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white dark:hover:border-white hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal">
                                 Deploy now
                             </a>
-                            <button type="button" class="p-3 pt-1 pb-1 border rounded-sm" hx-get="{{ url()->current() }}">HTMX Test</button>
+                            <button id="button1" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button2,button3" hx-get="{{ url()->current() }}">HTMX Test {{ \Carbon\Carbon::now() }}</button>
+                            <button id="button2" type="button" class="p-3 pt-1 pb-1 border rounded-sm" hx-get="{{ url()->current() }}">HTMX Test {{ \Carbon\Carbon::now()->addHours(1) }}</button>
+                            <button id="button3" type="button" class="p-3 pt-1 pb-1 border rounded-sm" hx-select-oob="button2" hx-get="{{ url()->current() }}">HTMX Test {{ \Carbon\Carbon::now()->addHours(2) }}</button>
+                            <button id="button4" type="button" class="p-3 pt-1 pb-1 border rounded-sm" hx-get="{{ url()->current() }}">HTMX Test {{ \Carbon\Carbon::now()->addHours(3) }}</button>
+                            <button id="button5" type="button" class="p-3 pt-1 pb-1 border rounded-sm" hx-get="{{ url()->current() }}">HTMX Test {{ \Carbon\Carbon::now()->addHours(4) }}</button>
                         </li>
                     </ul>
                 </div>
