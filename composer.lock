@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ae1b42e14532e092626927486a594a6",
+    "content-hash": "b91c6836b981bc3565b5ee7d4d16c0d8",
     "packages": [
         {
             "name": "brick/math",
@@ -5597,22 +5597,23 @@
         },
         {
             "name": "tetrix/tetrix",
-            "version": "dev-adding-tx-targets-logic",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tetrixdev/tetrix.git",
-                "reference": "67d45e2c2aacb15c6d078f65d6de6ec197fc3b59"
+                "reference": "35be716c6855a5bdf7747bfb0dc270ef93d883b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tetrixdev/tetrix/zipball/67d45e2c2aacb15c6d078f65d6de6ec197fc3b59",
-                "reference": "67d45e2c2aacb15c6d078f65d6de6ec197fc3b59",
+                "url": "https://api.github.com/repos/tetrixdev/tetrix/zipball/35be716c6855a5bdf7747bfb0dc270ef93d883b2",
+                "reference": "35be716c6855a5bdf7747bfb0dc270ef93d883b2",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.4",
                 "laravel/framework": "^12.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -5641,9 +5642,9 @@
             "description": "Tetrix provides a modern, opinionated set of full-stack Laravel components that help developers build applications quickly and efficiently.",
             "support": {
                 "issues": "https://github.com/tetrixdev/tetrix/issues",
-                "source": "https://github.com/tetrixdev/tetrix/tree/adding-tx-targets-logic"
+                "source": "https://github.com/tetrixdev/tetrix/tree/main"
             },
-            "time": "2025-03-13T22:01:53+00:00"
+            "time": "2025-03-13T22:09:04+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

@@ -112,7 +112,7 @@
                     </ul>
                     <ul class="flex gap-3 text-sm leading-normal">
                         <li>
-                            <button id="button1" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button2,button3">HTMX Test {{ \Carbon\Carbon::now() }}</button>
+                            <button id="button1" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button1, button2,button3">HTMX Test {{ \Carbon\Carbon::now() }}</button>
                             <button id="button2" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button5">HTMX Test {{ \Carbon\Carbon::now()->addHours(1) }}</button>
                             <button id="button3" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(2) }}</button>
                             <button id="button4" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(3) }}</button>
