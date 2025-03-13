@@ -25,44 +25,53 @@ class TetrixTargetsResponse
             return $response;
         }
 
+        // If the TX-Targets header is present, we need to ensure the Vary header is set to TX-Targets
+        // We're adding it this way so the header is present regardless of whether we encounter an error or not
+        header('Vary: TX-Targets');
+
         // Ensure response is HTML
         $contentType = $response->headers->get('Content-Type', '');
         if (!str_contains($contentType, 'text/html')) {
             trigger_error('TX-Targets header present but response is not HTML', E_USER_WARNING);
         }
 
-        $htmlContent = preg_replace('/<!DOCTYPE html>/i', '', $response->getContent());
         $DOMDocument = new DomDocument('1.0', 'UTF-8');
-        $DOMDocument->loadHTML($htmlContent);
-        $xpath = new DOMXpath($DOMDocument);
+        // We need to suppress errors because DomDocument gives errors on html5 tags
+        // Possibly want to switch to Dom\HTMLDocument in the future, but it's PHP8.4+
+        $DOMDocument->loadHTML($response->getContent(), LIBXML_NOERROR);
+        $xpath = new DOMXPath($DOMDocument);
 
-        // example 1: for everything with an id
-        $elements = $xpath->query("//*[@id='button4']");
-        dd($elements);
+        $selectors = explode(',', $txTargets);
 
-//        $crawler = new Crawler($htmlContent);
-//
-//        $selectedContent = [];
-//
-//        // Parse and retrieve elements based on the TX-Targets selectors
-//        $selectors = explode(',', $txTargets);
-//        foreach ($selectors as $selector) {
-//            $selector = trim($selector);
-//            $crawler->filter($selector)->each(function ($node) use (&$selectedContent) {
-//                $node->getNode(0)->setAttribute('hx-swap-oob', 'true');
-//                $selectedContent[] = $node->outerHtml();
-//            });
-//        }
-//
-//        // If no elements found, return original response
-//        if (empty($selectedContent)) {
-//            return $response;
-//        }
-//
-//        // Return only selected elements with hx-swap-oob="true"
-//        $newResponse = implode("\n", $selectedContent);
-//
-//        return response($newResponse, 200)
-//            ->header('Content-Type', 'text/html');
+        if(empty($selectors)) {
+            throw new \RuntimeException('No selectors found in TX-Targets header');
+        }
+
+        $collectedHtml = [];
+
+        foreach ($selectors as $selector) {
+            $selector = trim($selector);
+            $elements = $xpath->query("//*[@id='{$selector}']");
+
+            if ($elements->length > 1) {
+                throw new \RuntimeException('Multiple elements found with id: ' . $selector);
+            }
+
+            if ($elements->length < 1) {
+                throw new \RuntimeException('No elements found with id: ' . $selector);
+            }
+
+            $element = $elements->item(0);
+            $element->setAttribute('hx-swap-oob', 'true');
+            $collectedHtml[] = $DOMDocument->saveHTML($element);
+        }
+
+        $newResponseHTML = implode('', $collectedHtml);
+        $newResponse = $response->setContent($newResponseHTML);
+
+        // We're adding the HX-Reswap header as we're not using the HX-Target header to determine what to replace, so we don't want to replace the content of the default HX-Target.
+        $newResponse = $newResponse->header('HX-Reswap', 'none');
+
+        return $newResponse;
     }
 }
