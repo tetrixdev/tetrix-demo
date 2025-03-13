@@ -1,6 +1,6 @@
 services:
   tetrix-demo-php:
-    image: ghcr.io/jfbauer/tetrix-demo-php:REPLACE_WITH_VERSION
+    image: ghcr.io/tetrixdev/tetrix-demo-php:REPLACE_WITH_VERSION
     container_name: tetrix-demo-php
     volumes:
       - '.env:/var/www/.env'
@@ -18,7 +18,7 @@ services:
       retries: 3
 
   tetrix-demo-nginx:
-    image: ghcr.io/jfbauer/tetrix-demo-nginx:REPLACE_WITH_VERSION
+    image: ghcr.io/tetrixdev/tetrix-demo-nginx:REPLACE_WITH_VERSION
     container_name: tetrix-demo-nginx
     volumes:
       - 'tetrix-demo-storage:/mnt/docker/storage'
@@ -37,7 +37,7 @@ services:
       retries: 3
 
   tetrix-demo-mariadb:
-    image: ghcr.io/jfbauer/tetrix-demo-mariadb:REPLACE_WITH_VERSION
+    image: ghcr.io/tetrixdev/tetrix-demo-mariadb:REPLACE_WITH_VERSION
     container_name: tetrix-demo-mariadb
     ports:
       - '${FORWARD_DB_PORT:-3306}:3306'
