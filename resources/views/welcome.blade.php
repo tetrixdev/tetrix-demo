@@ -112,11 +112,14 @@
                     </ul>
                     <ul class="flex gap-3 text-sm leading-normal">
                         <li>
-                            <button id="button1" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button1, button2,button3">HTMX Test {{ \Carbon\Carbon::now() }}</button>
-                            <button id="button2" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button5">HTMX Test {{ \Carbon\Carbon::now()->addHours(1) }}</button>
-                            <button id="button3" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(2) }}</button>
-                            <button id="button4" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(3) }}</button>
-                            <button id="button5" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(4) }}</button>
+                            <x-tx::button variant="primary" class="mb-2" id="button1">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button variant="primary" disabled class="mb-2" id="button7">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button variant="primary" loading class="mb-2" id="button7">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button variant="secondary" class="mb-2" id="button2">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button variant="success" class="mb-2" id="button3">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button variant="danger" class="mb-2" id="button4">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button variant="warning" class="mb-2" id="button5">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button variant="info" id="button6">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
                         </li>
                     </ul>
                 </div>
