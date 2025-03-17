@@ -5601,12 +5601,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tetrixdev/tetrix.git",
-                "reference": "4b575942cd54976a12f3bf84a543fa342ba09197"
+                "reference": "75fd3d31362f1c3c44e4dc820ecb85f95f68cca7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tetrixdev/tetrix/zipball/4b575942cd54976a12f3bf84a543fa342ba09197",
-                "reference": "4b575942cd54976a12f3bf84a543fa342ba09197",
+                "url": "https://api.github.com/repos/tetrixdev/tetrix/zipball/75fd3d31362f1c3c44e4dc820ecb85f95f68cca7",
+                "reference": "75fd3d31362f1c3c44e4dc820ecb85f95f68cca7",
                 "shasum": ""
             },
             "require": {
@@ -5643,7 +5643,7 @@
                 "issues": "https://github.com/tetrixdev/tetrix/issues",
                 "source": "https://github.com/tetrixdev/tetrix/tree/start-adding-components"
             },
-            "time": "2025-03-16T18:49:37+00:00"
+            "time": "2025-03-17T22:15:22+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -8204,6 +8204,6 @@
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
