@@ -20,35 +20,99 @@
         @endif
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
-                        </a>
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
 
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
+                <!-- Navigation (Mobile Toggle) -->
+                <div class="lg:hidden">
+                    <button @click="open = !open" class="text-gray-700 focus:outline-none">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Nav Items -->
+                <nav x-data="{ open: false }" class="hidden lg:flex space-x-6">
+                    <div class="relative" x-data="{ dropdownOpen: false }">
+                        <button @click="dropdownOpen = !dropdownOpen" class="text-gray-700 font-medium hover:text-blue-500">
+                            Services
+                        </button>
+                        <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
+                             class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50">
+                            <div class="px-4 py-2 text-sm text-gray-500 font-semibold">Web Development</div>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Frontend</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Backend</a>
+
+                            <div class="px-4 py-2 text-sm text-gray-500 font-semibold">Design</div>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">UI/UX</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Branding</a>
+                        </div>
+                    </div>
+                    <a href="#" class="text-gray-700 font-medium hover:text-blue-500">About</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-blue-500">Contact</a>
                 </nav>
-            @endif
-        </header>
+
+                <!-- Logo -->
+                <div>
+                    <a href="#" class="text-2xl font-bold text-blue-600">MyLogo</a>
+                </div>
+            </div>
+
+            <!-- Mobile Dropdown -->
+            <div x-data="{ open: false }" class="lg:hidden">
+                <div x-show="open" class="mt-2 space-y-2 bg-white shadow-md rounded-md p-4">
+                    <div class="relative" x-data="{ dropdownOpen: false }">
+                        <button @click="dropdownOpen = !dropdownOpen" class="block w-full text-left text-gray-700 font-medium py-2">
+                            Services
+                        </button>
+                        <div x-show="dropdownOpen" @click.away="dropdownOpen = false" class="mt-2 space-y-2">
+                            <div class="px-4 py-2 text-sm text-gray-500 font-semibold">Web Development</div>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Frontend</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Backend</a>
+
+                            <div class="px-4 py-2 text-sm text-gray-500 font-semibold">Design</div>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">UI/UX</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Branding</a>
+                        </div>
+                    </div>
+                    <a href="#" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100">About</a>
+                    <a href="#" class="block px-4 py-2 text-gray-700 font-medium hover:bg-gray-100">Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+{{--        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">--}}
+{{--            @if (Route::has('login'))--}}
+{{--                <nav class="flex items-center justify-end gap-4">--}}
+{{--                    @auth--}}
+{{--                        <a--}}
+{{--                            href="{{ url('/dashboard') }}"--}}
+{{--                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"--}}
+{{--                        >--}}
+{{--                            Dashboard--}}
+{{--                        </a>--}}
+{{--                    @else--}}
+{{--                        <a--}}
+{{--                            href="{{ url('login') }}"--}}
+{{--                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"--}}
+{{--                        >--}}
+{{--                            Log in--}}
+{{--                        </a>--}}
+
+{{--                        @if (Route::has('register'))--}}
+{{--                            <a--}}
+{{--                                href="{{ url('register') }}"--}}
+{{--                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">--}}
+{{--                                Register--}}
+{{--                            </a>--}}
+{{--                        @endif--}}
+{{--                    @endauth--}}
+{{--                </nav>--}}
+{{--            @endif--}}
+{{--        </header>--}}
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
                 <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
@@ -112,11 +176,16 @@
                     </ul>
                     <ul class="flex gap-3 text-sm leading-normal">
                         <li>
-                            <button id="button1" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button1, button2,button3">HTMX Test {{ \Carbon\Carbon::now() }}</button>
-                            <button id="button2" type="button" class="p-3 pt-1 pb-1 border rounded-sm" tx-targets="button5">HTMX Test {{ \Carbon\Carbon::now()->addHours(1) }}</button>
-                            <button id="button3" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(2) }}</button>
-                            <button id="button4" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(3) }}</button>
-                            <button id="button5" type="button" class="p-3 pt-1 pb-1 border rounded-sm">HTMX Test {{ \Carbon\Carbon::now()->addHours(4) }}</button>
+                            <x-tx::button class="mb-2" id="button1">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button disabled class="mb-2" id="button7">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button>
+                            <x-tx::button-primary class="mb-2" id="button1">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-primary>
+                            <x-tx::button-primary disabled class="mb-2" id="button7">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-primary>
+                            <x-tx::button-success class="mb-2" id="button1">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-success>
+                            <x-tx::button-success disabled class="mb-2" id="button7">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-success>
+                            <x-tx::button-warning class="mb-2" id="button1">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-warning>
+                            <x-tx::button-warning disabled class="mb-2" id="button7">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-warning>
+                            <x-tx::button-danger class="mb-2" id="button1">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-danger>
+                            <x-tx::button-danger disabled class="mb-2" id="button7">HTMX Test {{ \Carbon\Carbon::now()->addHours(5) }}</x-tx::button-danger>
                         </li>
                     </ul>
                 </div>
