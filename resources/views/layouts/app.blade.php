@@ -9,10 +9,10 @@
         <x-slot:right>
             <x-tx::nav>
                 <x-tx::nav-item>
-                    <i class="fa-solid fa-cog"></i>Item 1
+                    <i class="fa-solid fa-cog fa-fw"></i>Item 1
                 </x-tx::nav-item>
                 <x-tx::nav-item>
-                    <i class="fa-solid fa-user"></i>Profile
+                    <i class="fa-solid fa-user fa-fw"></i>Profile
                     <x-slot:dropdown>
                         <x-tx::sub-nav-column>
                             <x-tx::sub-nav-header>Profile</x-tx::sub-nav-header>
@@ -37,7 +37,7 @@
                     </x-slot:dropdown>
                 </x-tx::nav-item>
                 <x-tx::nav-item>
-                    <i class="fa-solid fa-user"></i>Profile
+                    <i class="fa-solid fa-user fa-fw"></i>Profile
                     <x-slot:dropdown>
                         <x-tx::sub-nav-column>
                             <x-tx::sub-nav-header>Profile</x-tx::sub-nav-header>
@@ -62,7 +62,7 @@
                     </x-slot:dropdown>
                 </x-tx::nav-item>
                 <x-tx::nav-item>
-                    <i class="fa-solid fa-user"></i>Profile
+                    <i class="fa-solid fa-user fa-fw"></i>Profile
                     <x-slot:dropdown>
                         <x-tx::sub-nav-column>
                             <x-tx::sub-nav-header>Profile</x-tx::sub-nav-header>
@@ -87,7 +87,7 @@
                     </x-slot:dropdown>
                 </x-tx::nav-item>
                 <x-tx::nav-item>
-                    <i class="fa-solid fa-user"></i>Profile
+                    <i class="fa-solid fa-user fa-fw"></i>Profile
                     <x-slot:dropdown>
                         <x-tx::sub-nav-column>
                             <x-tx::sub-nav-header>Profile</x-tx::sub-nav-header>

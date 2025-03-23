@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff28f9afbcc7326a01b44e5bb9ad75c4",
+    "content-hash": "b91c6836b981bc3565b5ee7d4d16c0d8",
     "packages": [
         {
             "name": "brick/math",
@@ -5597,22 +5597,23 @@
         },
         {
             "name": "tetrix/tetrix",
-            "version": "dev-start-adding-components",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tetrixdev/tetrix.git",
-                "reference": "358cc82784fe408d1f1d70bf0c2d4cd7bd39043c"
+                "reference": "346db527524acfbdb7207bbed480087e08375afe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tetrixdev/tetrix/zipball/358cc82784fe408d1f1d70bf0c2d4cd7bd39043c",
-                "reference": "358cc82784fe408d1f1d70bf0c2d4cd7bd39043c",
+                "url": "https://api.github.com/repos/tetrixdev/tetrix/zipball/346db527524acfbdb7207bbed480087e08375afe",
+                "reference": "346db527524acfbdb7207bbed480087e08375afe",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.4",
                 "laravel/framework": "^12.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -5641,9 +5642,9 @@
             "description": "Tetrix provides a modern, opinionated set of full-stack Laravel components that help developers build applications quickly and efficiently.",
             "support": {
                 "issues": "https://github.com/tetrixdev/tetrix/issues",
-                "source": "https://github.com/tetrixdev/tetrix/tree/start-adding-components"
+                "source": "https://github.com/tetrixdev/tetrix/tree/main"
             },
-            "time": "2025-03-22T14:15:58+00:00"
+            "time": "2025-03-23T21:36:05+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -8204,6 +8205,6 @@
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
