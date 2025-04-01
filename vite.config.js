@@ -14,7 +14,15 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
+            refresh: [
+                'resources/views/**/*.blade.php',
+                'app/**/*.php',
+                'routes/**/*.php',
+                'vendor/tetrix/tetrix/src/Views/*.blade.php',
+                'vendor/tetrix/tetrix/src/Views/**/*.blade.php',
+                'vendor/tetrix/tetrix/src/Components/*.php',
+                'vendor/tetrix/tetrix/src/Components/**/*.php'
+            ],
         }),
         tailwindcss(),
     ],
