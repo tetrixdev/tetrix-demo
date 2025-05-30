@@ -122,3 +122,9 @@
         </x-slot:right>
     </x-tx::header>
 @endsection
+
+@section('tx-main')
+    <x-tx::main>
+        @yield('main')
+    </x-tx::main>
+@endsection
